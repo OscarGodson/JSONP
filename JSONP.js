@@ -1,6 +1,7 @@
 /**
  * JSONP sets up and allows you to execute a JSONP request
- * @param {String} url  The URL you are requesting with the JSON data (you may include URL params)
+ * @param {String} url  The URL you are requesting with the JSON data
+ * @param {Object} data The Data object you want to generate the URL params from
  * @param {String} method  The method name for the callback function. Defaults to callback (for example, flickr's is "jsoncallback")
  * @param {Function} callback  The callback you want to execute as an anonymous function. The first parameter of the anonymous callback function is the JSON
  *
@@ -10,17 +11,37 @@
  * });
  *
  * @example
- * JSONP('http://api.flickr.com/services/feeds/photos_public.gne?id=12389944@N03&format=json','jsoncallback',function(json){
- *   document.getElementById('flickrPic').innerHTML = '<p>Flickr Pic:</p><img src="'+json.items[0].media.m+'">';
+ * JSONP('http://api.flickr.com/services/feeds/photos_public.gne',{'id':'12389944@N03','format':'json'},'jsoncallback',function(json){
+ *  document.getElementById('flickrPic').innerHTML = '<p>Flickr Pic:</p><img src="'+json.items[0].media.m+'">';
+ * });
+ *
+ * @example
+ * JSONP('http://graph.facebook.com/FacebookDevelopers', 'callback', function(json){
+ *  document.getElementById('facebook').innerHTML = json.about;
  * });
  */
 (function( window, undefined) {
-  var JSONP = function(url,method,callback){
+  var JSONP = function(url,data,method,callback){
     //Set the defaults
     url = url || '';
+    data = data || {};
     method = method || '';
     callback = callback || function(){};
-  
+    
+    //Turn the data object into a query string.
+    //Add check to see if the second parameter is indeed
+    //a data object. If not, keep the default behaviour
+    if(typeof data == 'object'){
+      var queryString = '';
+      queryString = Object.keys(data).map(function(key){ 
+      return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]); 
+      }).join('&');
+      url += '?' + queryString;
+    } else if(typeof data == 'function'){
+      method = data;
+      callback = method;
+    }
+
     //If no method was set and they used the callback param in place of
     //the method param instead, we say method is callback and set a
     //default method of "callback"
@@ -32,15 +53,15 @@
     //This randomizes a function *name* for generated script tag at the bottom to call
     //example: jsonp958653
     var generatedFunction = 'jsonp'+Math.round(Math.random()*1000001)
-  
+
     //Generate the temp JSONP function using the name above
     //First, call the function the user defined in the callback param [callback(json)]
     //Then delete the generated function from the window [delete window[generatedFunction]]
     window[generatedFunction] = function(json){
       callback(json);
       delete window[generatedFunction];
-    };
-  
+    };  
+
     //Check if the user set their own params, and if not add a ? to start a list of params
     //If in fact they did we add a & to add onto the params
     //example1: url = http://url.com THEN http://url.com?callback=X
