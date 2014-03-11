@@ -60,7 +60,6 @@
     var timestamp = Date.now();
     var generatedFunction = 'jsonp'+Math.round(timestamp+Math.random()*1000001)
 
-    console.log(generatedFunction);
     //Generate the temp JSONP function using the name above
     //First, call the function the user defined in the callback param [callback(json)]
     //Then delete the generated function from the window [delete window[generatedFunction]]
