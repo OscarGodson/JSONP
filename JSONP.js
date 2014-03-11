@@ -50,10 +50,17 @@
       method = 'callback';
     }
   
-    //This randomizes a function *name* for generated script tag at the bottom to call
-    //example: jsonp958653
-    var generatedFunction = 'jsonp'+Math.round(Math.random()*1000001)
+    //Check to see if we have Date.now available, if not shim it for older browsers
+    if(!Date.now){
+      Date.now = function() { return new Date().getTime(); };
+    }
 
+    //Use timestamp + a random factor to account for a lot of requests in a short time
+    //e.g. jsonp1394571775161 
+    var timestamp = Date.now();
+    var generatedFunction = 'jsonp'+Math.round(timestamp+Math.random()*1000001)
+
+    console.log(generatedFunction);
     //Generate the temp JSONP function using the name above
     //First, call the function the user defined in the callback param [callback(json)]
     //Then delete the generated function from the window [delete window[generatedFunction]]
