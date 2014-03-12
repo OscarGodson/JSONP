@@ -31,7 +31,13 @@ You can also pass parameters in the form of a JSON object, like so:
       document.getElementById('github').innerHTML = json.data[0].html_url;
     });
 
+###Browser Support
+* IE6+
+* Firefox 3.0+
+* Safari 4.0+
+* Google Chrome 14.0+
+* Opera 10.6+
+
 ###To do...
 
-* I have yet to test on any browsers by Firefox 4 and Chrome 11 on Mac
 * Anything else people request, if anything

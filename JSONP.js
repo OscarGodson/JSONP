@@ -46,9 +46,13 @@
     //a data object. If not, keep the default behaviour
     if(typeof data == 'object'){
       var queryString = '';
-      queryString = getKeys(data).map(function(key){ 
-      return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]); 
-      }).join('&');
+      var keys = getKeys(data);
+      for(var i = 0; i < keys.length; i++){
+        queryString += encodeURIComponent(keys[i]) + '=' + encodeURIComponent(data[keys[i]])
+        if(i != keys.length - 1){ 
+          queryString += '&';
+        }
+      }
       url += '?' + queryString;
     } else if(typeof data == 'function'){
       method = data;
