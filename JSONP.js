@@ -28,12 +28,25 @@
     method = method || '';
     callback = callback || function(){};
     
+    //Gets all the keys that belong
+    //to an object
+    var getKeys = function(obj){
+      var keys = [];
+      for(var key in obj){
+        if (obj.hasOwnProperty(key)) {
+          keys.push(key);
+        }
+        
+      }
+      return keys;
+    }
+
     //Turn the data object into a query string.
     //Add check to see if the second parameter is indeed
     //a data object. If not, keep the default behaviour
     if(typeof data == 'object'){
       var queryString = '';
-      queryString = Object.keys(data).map(function(key){ 
+      queryString = getKeys(data).map(function(key){ 
       return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]); 
       }).join('&');
       url += '?' + queryString;
