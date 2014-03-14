@@ -10,17 +10,32 @@
     <div id="flickrPic"></div>
     
     <div id="avatar"></div>
+
+    <div id="github"></div>
+
+    <div id="facebook"></div>
     
     <script src="JSONP-min.js"></script>
     <script>
       //Flickr Example
-      JSONP('http://api.flickr.com/services/feeds/photos_public.gne?id=12389944@N03&format=json','jsoncallback',function(json){
+      JSONP('http://api.flickr.com/services/feeds/photos_public.gne',{'id':'12389944@N03','format':'json'},'jsoncallback',function(json){
         document.getElementById('flickrPic').innerHTML = '<p>Flickr Pic:</p><img src="'+json.items[0].media.m+'">';
       });
       
       //Twitter Example
       JSONP('http://twitter.com/users/oscargodson.json',function(json){
         document.getElementById('avatar').innerHTML = '<p>Twitter Pic:</p><img src="'+json.profile_image_url+'">';
+      });
+
+      //Github Example
+      //https://api.github.com/users/carvefx/gists?since=2014-02-01T12:00:00Z
+      JSONP('https://api.github.com/users/carvefx/gists',{'since': '2014-02-01T12:00:00Z'},function(json){
+        document.getElementById('github').innerHTML = json.data[0].html_url;
+      });
+
+      //Facebook Graph Example
+      JSONP('http://graph.facebook.com/FacebookDevelopers', 'callback', function(json){
+        document.getElementById('facebook').innerHTML = json.about;
       });
     </script>
   </body>

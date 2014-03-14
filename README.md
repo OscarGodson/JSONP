@@ -11,7 +11,7 @@ After searching for "JSONP examples" and "JSONP tutorials" I was dissapointed by
 
 It's simple. There are three parameters, but you only need two. This is what it looks like:
 
-    JSONP([url],[method],[callback])
+    JSONP([url],[data], [method],[callback])
 
 To get my Twitter avatar for example you'd do:
 
@@ -25,8 +25,19 @@ Sometimes the third-party site require a custom method name, like Flickr, which 
       console.log(json.items[0].media.m);
     });
 
+You can also pass parameters in the form of a JSON object, like so:
+
+    JSONP('https://api.github.com/users/carvefx/gists',{'since': '2014-02-01T12:00:00Z'},function(json){
+      document.getElementById('github').innerHTML = json.data[0].html_url;
+    });
+
+###Browser Support
+* IE6+
+* Firefox 3.0+
+* Safari 4.0+
+* Google Chrome 14.0+
+* Opera 10.6+
+
 ###To do...
 
-* I have yet to test on any browsers by Firefox 4 and Chrome 11 on Mac
-* Set params programmatically rather than all in the URL
 * Anything else people request, if anything
