@@ -27,7 +27,15 @@
     data = data || {};
     method = method || '';
     callback = callback || function(){};
-    
+
+    //Check if the user set their own params, and if not add a ? to start a list of params
+    //If in fact they did we add a & to add onto the params
+    //example1: url = http://url.com THEN http://url.com?callback=X
+    //example2: url = http://url.com?example=param THEN http://url.com?example=param&callback=X
+    var checkParams = function() {
+        return (url.indexOf('?') === -1) ? '?' : '&';
+    };
+
     //Gets all the keys that belong
     //to an object
     var getKeys = function(obj){
@@ -36,7 +44,7 @@
         if (obj.hasOwnProperty(key)) {
           keys.push(key);
         }
-        
+
       }
       return keys;
     }
@@ -49,11 +57,11 @@
       var keys = getKeys(data);
       for(var i = 0; i < keys.length; i++){
         queryString += encodeURIComponent(keys[i]) + '=' + encodeURIComponent(data[keys[i]])
-        if(i != keys.length - 1){ 
+        if(i != keys.length - 1){
           queryString += '&';
         }
       }
-      url += '?' + queryString;
+      url += checkParams() + queryString;
     } else if(typeof data == 'function'){
       method = data;
       callback = method;
@@ -66,14 +74,14 @@
       callback = method;
       method = 'callback';
     }
-  
+
     //Check to see if we have Date.now available, if not shim it for older browsers
     if(!Date.now){
       Date.now = function() { return new Date().getTime(); };
     }
 
     //Use timestamp + a random factor to account for a lot of requests in a short time
-    //e.g. jsonp1394571775161 
+    //e.g. jsonp1394571775161
     var timestamp = Date.now();
     var generatedFunction = 'jsonp'+Math.round(timestamp+Math.random()*1000001)
 
@@ -83,15 +91,10 @@
     window[generatedFunction] = function(json){
       callback(json);
       delete window[generatedFunction];
-    };  
+    };
 
-    //Check if the user set their own params, and if not add a ? to start a list of params
-    //If in fact they did we add a & to add onto the params
-    //example1: url = http://url.com THEN http://url.com?callback=X
-    //example2: url = http://url.com?example=param THEN http://url.com?example=param&callback=X
-    if(url.indexOf('?') === -1){ url = url+'?'; }
-    else{ url = url+'&'; }
-  
+    url = url + checkParams();
+
     //This generates the <script> tag
     var jsonpScript = document.createElement('script');
     jsonpScript.setAttribute("src", url+method+'='+generatedFunction);
