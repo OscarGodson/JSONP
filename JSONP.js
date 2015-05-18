@@ -82,8 +82,16 @@
     //Then delete the generated function from the window [delete window[generatedFunction]]
     window[generatedFunction] = function(json){
       callback(json);
-      delete window[generatedFunction];
-    };  
+
+      // IE8 throws an exception when you try to delete a property on window
+      // http://stackoverflow.com/a/1824228/751089
+      try {
+        delete window[generatedFunction];
+      } catch(e) {
+        window[generatedFunction] = undefined;
+      }
+
+    };
 
     //Check if the user set their own params, and if not add a ? to start a list of params
     //If in fact they did we add a & to add onto the params
