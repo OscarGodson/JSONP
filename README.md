@@ -9,9 +9,15 @@ After searching for "JSONP examples" and "JSONP tutorials" I was dissapointed by
 
 ###How
 
-It's simple. There are three parameters, but you only need two. This is what it looks like:
+The high-level signature for the function looks like this:
 
-    JSONP([url],[data], [method],[callback])
+    JSONP([uri], [data], [custom_method_name], [callback])
+
+* uri - simply specify the endpoint you want to call. [string]
+* data - the payload that you want to include in your request. [object]
+* custom_method_name - this controls the name of the function that will make the JSONP request. Optionally used in certain cases. [string]
+* callback - a function called on a succesful response. [function]
+
 
 To get my Twitter avatar for example you'd do:
 
