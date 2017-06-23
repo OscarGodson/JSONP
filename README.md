@@ -1,13 +1,13 @@
-#JSONP Beta 1.0
-##Alpha Stage
+# JSONP Beta 1.0
+## Alpha Stage
 
-###What 
+### What 
 This is a super tiny JSONP library for when you don't need jQuery or another JS library just for JSONP requests.
 
-###Why
+### Why
 After searching for "JSONP examples" and "JSONP tutorials" I was dissapointed by the lack of straightforward JSONP stuff out there. While there is nothing wrong with jQuery and I use it every single day, sometimes you need to do some JSONP without using jQuery and so I wrote this for myself, but feel free to use it! The min version is only 621 bytes.
 
-###How
+### How
 
 The high-level signature for the function looks like this:
 
@@ -37,13 +37,13 @@ You can also pass parameters in the form of a JSON object, like so:
       document.getElementById('github').innerHTML = json.data[0].html_url;
     });
 
-###Browser Support
+### Browser Support
 * IE6+
 * Firefox 3.0+
 * Safari 4.0+
 * Google Chrome 14.0+
 * Opera 10.6+
 
-###To do...
+### To do...
 
 * Anything else people request, if anything
