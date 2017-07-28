@@ -8,10 +8,14 @@ This is a super tiny JSONP library for when you don't need jQuery or another JS 
 After searching for "JSONP examples" and "JSONP tutorials" I was dissapointed by the lack of straightforward JSONP stuff out there. While there is nothing wrong with jQuery and I use it every single day, sometimes you need to do some JSONP without using jQuery and so I wrote this for myself, but feel free to use it! The min version is only 621 bytes.
 
 ### How
+The high-level signature for the function looks like this:
 
-It's simple. There are three parameters, but you only need one. This is what it looks like:
+    JSONP([uri], [data], [custom_method_name], [callback])
 
-    JSONP([url],[data], [method])
+* uri - simply specify the endpoint you want to call. [string]
+* data - the payload that you want to include in your request. [object]
+* custom_method_name - this controls the name of the function that will make the JSONP request. Optionally used in certain cases. [string]
+* callback - a function called on a succesful response. [function]
 
 To get my Twitter avatar for example you'd do:
     ```javascript
@@ -31,7 +35,7 @@ You can also pass parameters in the form of a JSON object, like so:
       document.getElementById('github').innerHTML = json.data[0].html_url;
     });
     ```
-Additionally you can use a callback instead, providing one as tghe last parameter:
+Additionally you can use a callback instead, providing one as the last parameter:
     ```javascript
     JSONP('http://twitter.com/users/oscargodson.json',function(json){
         console.log(json.profile_image_url);
