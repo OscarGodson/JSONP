@@ -103,6 +103,9 @@
     //This generates the <script> tag
     var jsonpScript = document.createElement('script');
     jsonpScript.setAttribute("src", url+method+'='+generatedFunction);
+    jsonpScript.addEventListener('error',function(event){
+      window[generatedFunction](event);
+    });
     document.getElementsByTagName("head")[0].appendChild(jsonpScript)
   }
   window.JSONP = JSONP;
